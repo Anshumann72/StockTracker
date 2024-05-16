@@ -13,7 +13,7 @@ function Dashboard() {
             function: "TIME_SERIES_INTRADAY",
             symbol: "IBM",
             interval: "5min",
-            apikey: "BVLTDC9SPQR6TDTD",
+            apikey: "D8SF0ZXVJC66WQ8V",
           },
         });
         if (response.data && response.data["Time Series (5min)"]) {
@@ -29,9 +29,16 @@ function Dashboard() {
     fetchStockData();
   }, []);
 
-  const addToWatchlist = (symbol) => {
-    // Implement function to add symbol to watchlist
-    console.log("Adding", symbol, "to watchlist");
+  const addToWatchlist = async (symbol) => {
+    try {
+      // Send a POST request to the backend endpoint to add the symbol to the watchlist
+      await axios.post("http://localhost:5000/api/watchlist", { symbol });
+      console.log("Added", symbol, "to watchlist");
+      // You can add additional logic here if needed, such as updating the UI
+    } catch (error) {
+      console.error("Error adding symbol to watchlist:", error);
+      // Handle error if needed
+    }
   };
 
   return (

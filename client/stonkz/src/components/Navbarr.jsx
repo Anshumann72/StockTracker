@@ -18,6 +18,9 @@ function Navbarr() {
             <Nav.Link as={Link} to="/register">
               Register
             </Nav.Link>
+            <Nav.Link as={Link} to="/watchlist">
+              Watchlist
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

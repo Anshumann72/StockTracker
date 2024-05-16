@@ -13,8 +13,17 @@ function Watchlist() {
   const fetchWatchlist = async () => {
     try {
       // Fetch watchlist data from the backend for the current user
-      const response = await axios.get("/api/watchlist");
+      const response = await axios.get("http://localhost:5000/api/watchlist");
       if (response.data && Array.isArray(response.data.watchlist)) {
+        // Remove duplicates from the watchlist data
+        console.log(response.data);
+        // const uniqueWatchlist = response.data.watchlist.reduce((acc, curr) => {
+        //   if (!acc.find((item) => item.symbol === curr.symbol)) {
+        //     acc.push(curr);
+        //   }
+        //   return acc;
+        // }, []);
+
         setWatchlist(response.data.watchlist);
       } else {
         console.error("Invalid watchlist data:", response.data);
@@ -27,7 +36,7 @@ function Watchlist() {
   const addToWatchlist = async () => {
     try {
       // Add symbol to watchlist on the backend
-      await axios.post("/api/watchlist", { symbol });
+      await axios.post("http://localhost:5000/api/watchlist", { symbol });
       // Update local watchlist state
       setWatchlist([...watchlist, symbol]);
       // Clear input field
@@ -40,7 +49,9 @@ function Watchlist() {
   const removeFromWatchlist = async (symbolToRemove) => {
     try {
       // Remove symbol from watchlist on the backend
-      await axios.delete(`/api/watchlist/${symbolToRemove}`);
+      await axios.delete(
+        `http://localhost:5000/api/watchlist/${symbolToRemove}`
+      );
       // Update local watchlist state
       setWatchlist(watchlist.filter((symbol) => symbol !== symbolToRemove));
     } catch (error) {
@@ -51,20 +62,11 @@ function Watchlist() {
   return (
     <div>
       <h5>Watchlist</h5>
-      <Form.Group>
-        <Form.Control
-          type="text"
-          placeholder="Enter symbol"
-          value={symbol}
-          onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-        />
-      </Form.Group>
-      <Button onClick={addToWatchlist}>Add</Button>
       {watchlist && watchlist.length > 0 ? (
         <ul>
-          {watchlist.map((symbol) => (
+          {watchlist.map(({ symbol, price }) => (
             <li key={symbol}>
-              {symbol}
+              {symbol}: {price}
               <Button onClick={() => removeFromWatchlist(symbol)}>
                 Remove
               </Button>

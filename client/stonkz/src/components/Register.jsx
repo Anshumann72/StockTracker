@@ -21,7 +21,10 @@ function Register() {
       setError("");
       setLoading(true);
       // Send registration data to the backend for processing
-      const response = await axios.post("/api/register", { email, password });
+      const response = await axios.post("http://localhost:5000/api/register", {
+        email,
+        password,
+      });
       console.log(response.data);
       // Redirect to login page after successful registration
       window.location.href = "/login";

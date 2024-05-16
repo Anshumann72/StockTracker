@@ -16,7 +16,10 @@ function Login() {
       setError("");
       setLoading(true);
       // Send login data to the backend for authentication
-      const response = await axios.post("/api/login", { email, password });
+      const response = await axios.post("http://localhost:5000/api/login", {
+        email,
+        password,
+      });
       console.log(response.data);
       // Redirect to home page after successful login
       window.location.href = "/";
